@@ -11,7 +11,6 @@ from . import serializers, filters
 
 
 class NotesListCreateAPIView(APIView):
-    permission_classes = (IsAuthenticated,)
 
     def get(self, request: Request):
         resp = Note.objects.all().order_by("date_and_time", "importance")
@@ -68,6 +67,19 @@ class NoteDetailAPIView(APIView):
         else:
             return Response('У вас нет прав изменять запись')
 
+    def delete(self, request, pk):
+        user = request.user
+        note = get_object_or_404(Note, pk=pk)
+        id_to_del = note.id
+        author = note.author
+
+        if user == author:
+            note.delete()
+            return Response(f"Удалена запись:{id_to_del}")
+
+        else:
+            return Response('У вас нет прав удалять запись')
+
 
 class PublicNoteListAPIView(ListAPIView):
     queryset = Note.objects.all()
@@ -84,5 +96,3 @@ class PublicNoteListAPIView(ListAPIView):
             public=self.request.query_params.get("public")
         )
         return queryset
-
-

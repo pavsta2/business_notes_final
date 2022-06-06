@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'notes_app',
+    'notes_api',
+    'about',
 ]
 
 MIDDLEWARE = [
