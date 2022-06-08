@@ -53,18 +53,10 @@ class NoteDetailAPIView(APIView):
             serializer.save()
             return Response(serializer.data)
 
-            # note.title = data['title']
-            # note.message = data['message']
-            # note.public = data['public']
-            # note.importance = data['importance']
-            # note.condition = data['condition']
-            # note.date_and_time = data['date_and_time']
-            # note.save()
-        #     return Response([
-        #     serializers.NoteListSerializer(note).data
-        # ])
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
+
+    # доп задание на зачет метод DELETE
 
     def delete(self, request, pk):
         user = request.user

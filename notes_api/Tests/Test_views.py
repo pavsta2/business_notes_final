@@ -1,8 +1,7 @@
-from django.test import TestCase
+# доп задание на зачет tests
 
 from rest_framework.test import APITestCase
 from rest_framework import status
-from django.test import Client
 
 from notes_app.models import Note
 from django.contrib.auth.models import User
