@@ -11,7 +11,6 @@ from . import serializers, filters
 
 
 class NotesListCreateAPIView(APIView):
-
     def get(self, request: Request):
         resp = Note.objects.all().order_by("date_and_time", "importance")
         serializer = NoteListSerializer(instance=resp, many=True)
@@ -65,20 +64,20 @@ class NoteDetailAPIView(APIView):
         #     serializers.NoteListSerializer(note).data
         # ])
         else:
-            return Response('У вас нет прав изменять запись')
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
     def delete(self, request, pk):
         user = request.user
-        note = get_object_or_404(Note, pk=pk)
-        id_to_del = note.id
+        note = Note.objects.get(pk=pk)
         author = note.author
 
         if user == author:
+            serializer = serializers.NoteListSerializer(instance=note)
             note.delete()
-            return Response(f"Удалена запись:{id_to_del}")
+            return Response(f"Удалена запись:{serializer.data}")
 
         else:
-            return Response('У вас нет прав удалять запись')
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
 
 class PublicNoteListAPIView(ListAPIView):
