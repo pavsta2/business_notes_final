@@ -12,5 +12,5 @@ class NoteListSerializer(serializers.ModelSerializer):
         model = Note
         fields = (
             'id', 'title', 'message', 'importance', 'condition', 'date_and_time',  # из модели
-            'author',   # из сериализатора
+            'author',   # из сериализатоллра
         )
